@@ -2,9 +2,9 @@ from operator import itemgetter
 from typing import Dict
 
 from codingame.code_of_the_rings.code_of_the_rings import (
-    Action,
     ASCII_MAP,
     N_STATES,
+    Action,
     Processor,
 )
 

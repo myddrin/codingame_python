@@ -1,9 +1,12 @@
 import dataclasses
-import sys
 import math
-
-from enum import IntEnum, Enum
-from typing import List, Dict, Optional, Tuple
+import sys
+from enum import IntEnum
+from typing import (
+    Dict,
+    List,
+    Optional,
+)
 
 
 class BuildingsType(IntEnum):
@@ -38,6 +41,7 @@ class UnitType(IntEnum):
             # Archers are slow but we don't know how much
         }
         return _unit_speed.get(self)
+
 
 def debug(msg: str):
     print(f"D {msg}", file=sys.stderr, flush=True)
@@ -208,9 +212,9 @@ class GameState:
 
     def get_sites(
         self,
-        owner: OwnerType=None,
-        structure: BuildingsType=None,
-        barrack_type: UnitType=None,
+        owner: OwnerType = None,
+        structure: BuildingsType = None,
+        barrack_type: UnitType = None,
     ) -> List[BuildingSite]:
         return [
             s
@@ -230,7 +234,7 @@ class GameState:
             if s.unit_type == unit_type
         ]
 
-    def get_enemies(self, unit_type: UnitType=None) -> List[Unit]:
+    def get_enemies(self, unit_type: UnitType = None) -> List[Unit]:
         return [
             s
             for s in self.enemies
@@ -238,8 +242,14 @@ class GameState:
         ]
 
     def print_state(self):
-        info(f'G={self.gold} my_queen={self.my_queen} with {len(self.allies)} units and {len(self.get_sites(OwnerType.Friendly))} buildings ')
-        info(f'Enemy queen={self.their_queen} with {len(self.enemies)} units and {len(self.get_sites(OwnerType.Enemy))} buildings ')
+        info(
+            f'G={self.gold} my_queen={self.my_queen} with {len(self.allies)} units '
+            f'and {len(self.get_sites(OwnerType.Friendly))} buildings ',
+        )
+        info(
+            f'Enemy queen={self.their_queen} with {len(self.enemies)} units '
+            f'and {len(self.get_sites(OwnerType.Enemy))} buildings ',
+        )
 
     def add_site(self, site: BuildingSite):
         # debug(f'Discovering {site}')
@@ -357,7 +367,7 @@ class GameState:
 
         closest_empty = self.closest_building_to_queen(owner=OwnerType.Enemy)
         if closest_empty:
-            debug(f'Evading from enemy buildings')
+            debug('Evading from enemy buildings')
             return Command.move_to(self.my_queen.get_away(closest_empty))
 
         return Command.wait()
@@ -381,8 +391,8 @@ class GameState:
 
         # Defensive: build archers first
         if (
-            len(unit_info[UnitType.Archer]['barracks'])
-            and len(unit_info[UnitType.Archer]['units']) < len(self.get_sites(owner=OwnerType.Enemy))
+            len(unit_info[UnitType.Archer]['barracks']) and
+            len(unit_info[UnitType.Archer]['units']) < len(self.get_sites(owner=OwnerType.Enemy))
         ):
             if gold >= UnitType.Archer.cost:
                 gold -= UnitType.Archer.cost

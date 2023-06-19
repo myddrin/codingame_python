@@ -34,7 +34,7 @@ class GhostLegs:
             # A line like: "|  |  |" or "|--|  |" or "|  |--|" etc
             line = ' ' + input() + ' '  # inject a leading space and a trailing space so we can read 3 char per position
             actions.append([
-                Action(line[st:st+3].strip())
+                Action(line[st:st + 3].strip())
                 for st in range(0, len(line), 3)
             ])
 
@@ -49,8 +49,8 @@ class GhostLegs:
             # going from left to right
             for r, act in enumerate(row):
                 if act == Action.SwapRight:
-                    other = columns[r+1]
-                    columns[r+1] = columns[r]
+                    other = columns[r + 1]
+                    columns[r + 1] = columns[r]
                     columns[r] = other
                 elif act in (Action.Stay, Action.SwapLeft):
                     # do nothing on stay

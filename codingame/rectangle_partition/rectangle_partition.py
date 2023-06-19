@@ -2,8 +2,8 @@
 See https://www.codingame.com/ide/puzzle/rectangle-partition
 """
 
-import sys
 import dataclasses
+import sys
 from typing import (
     Generator,
     List,

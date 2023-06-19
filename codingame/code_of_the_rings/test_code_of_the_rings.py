@@ -2,13 +2,13 @@ from operator import itemgetter
 
 import pytest as pytest
 
-from codingame.code_of_the_rings.run_code_of_the_rings import process
 from codingame.code_of_the_rings.code_of_the_rings import (
-    Action,
     ASCII_MAP,
+    Action,
     Processor,
     run_all,
 )
+from codingame.code_of_the_rings.run_code_of_the_rings import process
 from codingame.utils import read_package_resource
 
 

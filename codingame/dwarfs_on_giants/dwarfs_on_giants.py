@@ -102,6 +102,6 @@ if __name__ == '__main__':
         sys.exit()
 
     Person.load(edges)
-    l = longest_influence_chain(Person.people.values())  # can have more than one
-    debug(f'{l.name}: {"->".join((str(o.name) for o in l.best_influence_chain))}')
-    print(len(l.best_influence_chain))
+    longuest = longest_influence_chain(Person.people.values())  # can have more than one
+    debug(f'{longuest.name}: {"->".join((str(o.name) for o in longuest.best_influence_chain))}')
+    print(len(longuest.best_influence_chain))

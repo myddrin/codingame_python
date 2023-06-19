@@ -1,10 +1,13 @@
 import dataclasses
-import sys
 import math
-
+import sys
 from enum import IntEnum
 from operator import attrgetter
-from typing import List, Dict, Optional
+from typing import (
+    Dict,
+    List,
+    Optional,
+)
 
 
 DEBUG = False
@@ -374,7 +377,7 @@ class Dummy:
 
         closest_empty = state.closest_building_to_queen(owner=OwnerType.Enemy)
         if closest_empty:
-            debug(f'Evading from enemy buildings')
+            debug('Evading from enemy buildings')
             return Command.move_to(state.my_queen.get_away(closest_empty))
 
         return Command.wait()
@@ -385,8 +388,8 @@ class Dummy:
 
         # Defensive: build archers first
         if (
-            state.get_sites(owner=OwnerType.Enemy, structure=StructureType.Tower)
-            and not state.unit_info[UnitType.Giant].allies
+            state.get_sites(owner=OwnerType.Enemy, structure=StructureType.Tower) and
+            not state.unit_info[UnitType.Giant].allies
         ):
             for b in state.unit_info[UnitType.Giant].barracks:
                 if b.training_delay == 0 and gold >= UnitType.Giant.cost:
@@ -398,8 +401,10 @@ class Dummy:
                 return Command.train(buildings)  # Saving money
 
         if (
-            state.unit_info[UnitType.Archer].barracks
-            and len(state.unit_info[UnitType.Archer].allies) < len(state.get_sites(owner=OwnerType.Enemy, structure=StructureType.Barracks))
+            state.unit_info[UnitType.Archer].barracks and
+            len(state.unit_info[UnitType.Archer].allies) < len(
+                state.get_sites(owner=OwnerType.Enemy, structure=StructureType.Barracks),
+            )
         ):
             if gold >= UnitType.Archer.cost:
                 # prioritise by proximity to my queen
@@ -553,8 +558,8 @@ class GameState:
         )
 
         if (
-            site.structure == StructureType.Barracks and site.owner == OwnerType.Friendly
-            and site.barrack_type is not None
+            site.structure == StructureType.Barracks and site.owner == OwnerType.Friendly and
+            site.barrack_type is not None
         ):
             self.unit_info[site.barrack_type].barracks.append(site)
 
@@ -577,7 +582,7 @@ class GameState:
             else:
                 self.unit_info[unit.unit_type].enemies.append(unit)
 
-    def closest_building_to_queen(self, owner: OwnerType=None, not_owner: OwnerType=None):
+    def closest_building_to_queen(self, owner: OwnerType = None, not_owner: OwnerType = None):
         debug(f'Looking for closest owner={owner} not_owner={not_owner} building to the queen')
         # Ignore towers if possible, they hurt.
         sites = self.get_sites(owner=owner, not_owner=not_owner, not_structure=StructureType.Tower)

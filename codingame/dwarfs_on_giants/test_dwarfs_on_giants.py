@@ -1,8 +1,8 @@
 import pytest
 
 from .dwarfs_on_giants import (
-    longest_influence_chain,
     Person,
+    longest_influence_chain,
 )
 
 
