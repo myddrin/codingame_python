@@ -29,13 +29,13 @@ class Card(enum.Enum):
     Ace = 'A'
 
     @classmethod
-    def from_string(cls, values: str) -> Optional[list['Card']]:
+    def from_string(cls, values: str) -> list['Card']:
         cards = []
         for character in values:
             try:
                 card = cls(character)
             except ValueError:
-                return None
+                return []
             else:
                 cards.append(card)
         return cards
@@ -51,22 +51,20 @@ class Card(enum.Enum):
 
 
 def count_cards(words: list[str]) -> Dict[Card, int]:
-    count_cards = {}
+    """Get left over cards"""
+    count_cards = {
+        card: 4
+        for card in Card
+    }
 
     for word in words:
-        for card in Card.from_string(word) or []:
-            if card not in count_cards:
-                count_cards[card] = 0
-            count_cards[card] += 1
+        for card in Card.from_string(word):
+            count_cards[card] -= 1
 
     return count_cards
 
 
-def get_bust_chance(played_cards: Dict[Card, int], bust: int) -> float:
-    left_cards = {
-        card: 4 - played_cards.get(card, 0)
-        for card in Card
-    }
+def get_bust_chance(left_cards: Dict[Card, int], bust: int) -> float:
     total_above = 0
     total_bellow = 0
     for card, count in left_cards.items():

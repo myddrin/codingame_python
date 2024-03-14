@@ -1,3 +1,5 @@
+from typing import Tuple
+
 import pytest
 
 from .easily_distracted import (
@@ -21,7 +23,7 @@ class TestCard:
         'T1',
     ))
     def test_from_string_invalid(self, values):
-        assert Card.from_string(values) is None
+        assert Card.from_string(values) == []
 
     @pytest.mark.parametrize('card', list(Card))
     def test_all_cards_have_face_value(self, card):
@@ -42,13 +44,19 @@ class TestCountCards:
 
     def test_example(self):
         assert count_cards(['JT7A44', 'JAKE', 'AT&T', 'T1', 'KQ']) == {
-            Card.King: 1,
-            Card.Queen: 1,
-            Card.Jack: 1,
-            Card.Ten: 1,
-            Card.N7: 1,
+            Card.King: 3,
+            Card.Queen: 3,
+            Card.Jack: 3,
+            Card.Ten: 3,
+            Card.N9: 4,
+            Card.N8: 4,
+            Card.N7: 3,
+            Card.N6: 4,
+            Card.N5: 4,
             Card.N4: 2,
-            Card.Ace: 1,
+            Card.N3: 4,
+            Card.N2: 4,
+            Card.Ace: 3,
         }
 
 
@@ -81,9 +89,9 @@ class TestBustChance:
         ),
     ))
     def test_example(self, cards, bust, exp_bust):
-        played_cards = {
-            Card(card[0]): card[1]
-            for card in cards
+        left_cards = {
+            Card(card[0]): 4 - card[1]
+            for card in cards  # type: Tuple[str, int]
         }
-        found = get_bust_chance(played_cards, bust)
+        found = get_bust_chance(left_cards, bust)
         assert f'{found:.2f}' == f'{exp_bust:.2f}'
